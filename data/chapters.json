@@ -1,0 +1,17 @@
+{
+    "chapters": [
+      {
+        "id": "ch1",
+        "title": "Passwords & Authentication",
+        "file": "data/chapters/ch1_passwords.json",
+        "num_levels": 6
+      },
+      {
+        "id": "ch2",
+        "title": "Phishing & Social Engineering",
+        "file": "data/chapters/ch2_phishing.json",
+        "num_levels": 6
+      }
+    ]
+  }
+  

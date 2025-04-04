@@ -1,0 +1,78 @@
+{
+    "levels": [
+        {
+            "type": "lesson",
+            "title": "What is Phishing?",
+            "content": "Phishing is a cyber attack where attackers trick people into giving away sensitive information, such as passwords or credit card numbers, usually by pretending to be a trustworthy source via email or message."
+        },
+        {
+            "type": "lesson",
+            "title": "Types of Phishing Attacks",
+            "content": "Common phishing types include email phishing, spear phishing (targeted), smishing (SMS phishing), and vishing (voice phishing). Each method uses different channels to deceive the victim."
+        },
+        {
+            "type": "quiz",
+            "question": "Which of the following is an example of phishing?",
+            "options": [
+                "An app update notification",
+                "An email claiming you won a prize, asking for personal info",
+                "A scheduled system reboot",
+                "Installing antivirus software"
+            ],
+            "answer": 1
+        },
+        {
+            "type": "lesson",
+            "title": "How to Spot a Phishing Attempt",
+            "content": "Look for signs like poor grammar, suspicious links, unexpected attachments, and urgent or threatening language. Always verify the sender and avoid clicking unknown links."
+        },
+        {
+            "type": "quiz",
+            "question": "What is a sign of a phishing email?",
+            "options": [
+                "It uses perfect grammar and clear language",
+                "It comes from your saved contacts",
+                "It asks for urgent action and contains a suspicious link",
+                "It is sent through secure channels"
+            ],
+            "answer": 2
+        },
+        {
+            "type": "master",
+            "title": "Master Test - Phishing",
+            "num_questions": 3,
+            "questions": [
+                {
+                    "question": "What is phishing?",
+                    "options": [
+                        "A firewall configuration",
+                        "A fake message trying to steal information",
+                        "A type of antivirus",
+                        "A secure login process"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which of these is NOT a form of phishing?",
+                    "options": [
+                        "Email scams",
+                        "SMS asking for bank info",
+                        "Voice call pretending to be tech support",
+                        "Installing a trusted OS update"
+                    ],
+                    "answer": 3
+                },
+                {
+                    "question": "How can you protect yourself from phishing?",
+                    "options": [
+                        "Click all links to check them",
+                        "Respond quickly to suspicious emails",
+                        "Verify sources and avoid clicking unknown links",
+                        "Ignore security updates"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ]
+}
