@@ -9,6 +9,7 @@ from pathlib import Path
 from database.db import get_user_progress
 from data_interface import load_chapters
 from kivy.clock import Clock
+from screens.level_screen import LevelScreen
 
 KV = '''
 <ChapterScreen>:
@@ -119,11 +120,14 @@ class ChapterScreen(Screen):
             anim.start(btn)
             self.ids.level_list.add_widget(btn)
 
-    def start_level(self, level_index: int):
-        level_screen = self.manager.get_screen("level")
-        level_screen.load_chapter(self.chapter_index, level_index, self.user_id)
-        self.manager.current = "level"
+    def start_level(self, level_index):
+        sm = self.manager
+        level_screen = sm.get_screen("level")
 
+        # ✅ IMPORTANT: actually call load_chapter so self.levels is set
+        level_screen.load_chapter(self.chapter_index, level_index, self.user_id)
+
+        sm.current = "level"
     def update_progress_bar(self, total_levels: int):
         from database.db import get_user_progress
         from kivymd.uix.progressbar import MDProgressBar
