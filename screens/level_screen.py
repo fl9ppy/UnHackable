@@ -4,6 +4,14 @@ from kivy.animation import Animation
 from kivy.metrics import dp
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
+from kivymd.uix.label import MDLabel
+from kivy.uix.scrollview import ScrollView
+from pathlib import Path
+import json
+
+from data_interface import load_chapters
+from utils.gamification import grant_xp, calculate_xp
+from utils.logic import check_answer, get_next_level
 
 KV = '''
 <LevelScreen>:
@@ -23,7 +31,6 @@ KV = '''
             halign: "center"
             size_hint_y: None
             height: self.texture_size[1]
-            bold: True
 
         ScrollView:
             MDBoxLayout:
@@ -32,13 +39,6 @@ KV = '''
                 spacing: dp(12)
                 size_hint_y: None
                 height: self.minimum_height
-
-        MDLabel:
-            text: "Question:"
-            font_style: "Subtitle1"
-            halign: "left"
-            size_hint_y: None
-            height: self.texture_size[1]
 
         MDLabel:
             id: question_label
@@ -59,70 +59,141 @@ KV = '''
 Builder.load_string(KV)
 
 class LevelScreen(Screen):
-    def on_enter(self):
-        self.load_lesson({
-            "title": "Why Strong Passwords Matter",
-            "cards": [
-                "Many cyberattacks begin by guessing or cracking weak passwords.",
-                "Attackers use tools like brute-force and dictionary attacks to try thousands of password combinations quickly.",
-                "Passwords like '123456', 'admin', or 'password1' are in every attacker’s playbook."
-            ],
-            "questions": [
-                {
-                    "question": "Why is '123456' a weak password?",
-                    "options": [
-                        "It uses numbers",
-                        "It is commonly used and easy to guess",
-                        "It is long",
-                        "It is encrypted"
-                    ],
-                    "answer": 1
-                }
-            ]
-        })
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        self.chapter_index = 0
+        self.level_index = 0
+        self.user_id = 1
 
-    def load_lesson(self, lesson):
-        self.ids.level_title.text = lesson['title']
+    def on_enter(self):
+        self.load_current_level()
+
+    def load_current_level(self):
+        try:
+            chapters = load_chapters().get("chapters", [])
+            chapter = chapters[self.chapter_index]
+            chapter_file = Path(__file__).parent.parent / chapter["file"]
+            with open(chapter_file, encoding="utf-8") as f:
+                levels = json.load(f)["levels"]
+
+            if self.level_index >= len(levels):
+                toast("🎉 Done with this chapter!")
+                return
+
+            self.current_level = levels[self.level_index]
+            self.render_level(self.current_level)
+
+        except Exception as e:
+            toast(f"❌ Failed to load level: {e}")
+            print(f"[ERROR] {e}")
+
+    def render_level(self, level):
+        self.ids.card_container.clear_widgets()
+        self.ids.option_box.clear_widgets()
+        self.ids.question_label.text = ""
+        self.ids.level_title.text = level["title"]
+
         Animation(font_size=22, d=0.6, t='out_back').start(self.ids.level_title)
 
-        # Lesson cards
-        self.ids.card_container.clear_widgets()
-        for card in lesson['cards']:
-            card_btn = MDRaisedButton(
+        level_type = level.get("type", "lesson")
+
+        if level_type == "lesson":
+            self.display_lesson(level)
+        elif level_type == "practical":
+            self.display_practical(level)
+        elif level_type == "master":
+            self.display_master(level)
+        else:
+            toast("❓ Unknown level type")
+
+    def display_lesson(self, level):
+        for card in level.get("cards", []):
+            btn = MDRaisedButton(
                 text=card,
-                md_bg_color=(0.2, 0.2, 0.2, 1),
-                text_color=(1, 1, 1, 1),
-                theme_text_color="Custom",
                 size_hint_y=None,
                 height=dp(80),
-                elevation=8
+                md_bg_color=(0.2, 0.2, 0.2, 0.9),
+                theme_text_color="Custom",
+                text_color=(1, 1, 1, 1)
             )
-            card_btn.radius = [18, 18, 18, 18]
-            self.ids.card_container.add_widget(card_btn)
+            btn.radius = [20, 20, 20, 20]
+            self.ids.card_container.add_widget(btn)
 
-        # Load question
-        question = lesson["questions"][0]
-        self.ids.question_label.text = question["question"]
-        self.build_options(question)
+        questions = level.get("questions", [])
+        if questions:
+            self.ids.question_label.text = questions[0]["question"]
+            self.build_options(questions[0])
+
+    def display_practical(self, level):
+        self.ids.question_label.text = level.get("description", "")
+        btn = MDRaisedButton(
+            text="▶ Launch Simulation",
+            on_release=lambda x: toast("🚧 Simulation placeholder"),
+            size_hint=(1, None),
+            height=dp(60),
+            md_bg_color=(0.3, 0.7, 0.3, 1)
+        )
+        btn.radius = [24, 24, 24, 24]
+        self.ids.option_box.add_widget(btn)
+
+    def display_master(self, level):
+        qlist = level.get("questions", [])
+        if not qlist:
+            self.ids.question_label.text = "No questions in this master level"
+            return
+
+        self.ids.card_container.add_widget(MDLabel(
+            text="🧠 Master Quiz", halign="center", size_hint_y=None, height=dp(40)
+        ))
+        self.ids.question_label.text = qlist[0]["question"]
+        self.build_options(qlist[0])
+
+        if "practical" in level:
+            btn = MDRaisedButton(
+                text="▶ Practical Challenge",
+                on_release=lambda x: toast("🚧 Master practical placeholder"),
+                size_hint=(1, None),
+                height=dp(60),
+                md_bg_color=(0.2, 0.6, 0.9, 1)
+            )
+            btn.radius = [24, 24, 24, 24]
+            self.ids.option_box.add_widget(btn)
 
     def build_options(self, question):
-        self.ids.option_box.clear_widgets()
         correct = question["answer"]
-
         for i, opt in enumerate(question["options"]):
             btn = MDRaisedButton(
                 text=opt,
-                md_bg_color=(1, 0.2, 0.2, 1),
+                md_bg_color=(0.9, 0.4, 0.3, 1),
                 size_hint=(1, None),
                 height=dp(50),
-                pos_hint={"center_x": 0.5},
                 on_release=lambda btn, idx=i: self.check_answer(idx, correct)
             )
             btn.radius = [30, 30, 30, 30]
             self.ids.option_box.add_widget(btn)
 
-    def check_answer(self, idx, correct):
-        if idx == correct:
+    def check_answer(self, selected, correct):
+        if check_answer(correct, selected):
             toast("✅ Correct!")
+            grant_xp(self.user_id, calculate_xp("quiz_correct"))
+            self.next_level()
         else:
-            toast("❌ Try again!")
+            toast("❌ Try again")
+            grant_xp(self.user_id, calculate_xp("quiz_wrong"))
+
+    def next_level(self):
+        next_level = get_next_level({
+            "chapter": self.chapter_index,
+            "level": self.level_index
+        })
+        if next_level:
+            self.chapter_index = next_level["chapter"]
+            self.level_index = next_level["level"]
+            self.load_current_level()
+        else:
+            toast("🏁 You've completed all levels!")
+
+    def load_chapter(self, chapter_index: int, level_index: int = 0):
+        self.chapter_index = chapter_index
+        self.level_index = level_index
+        self.load_current_level()

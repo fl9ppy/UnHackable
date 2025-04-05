@@ -23,8 +23,8 @@ class UnHackableApp(MDApp):
         sm = ScreenManager()
        # sm.add_widget(LoginScreen(name='login'))
        # sm.add_widget(SignupScreen(name='signup'))
-        #sm.add_widget(LevelScreen(name='level'))
         sm.add_widget(HomeScreen(name="home"))
+        sm.add_widget(LevelScreen(name='level'))
         return sm
 
 if __name__ == "__main__":
