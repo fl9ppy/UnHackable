@@ -4,29 +4,6 @@ from kivy.animation import Animation
 from kivy.metrics import dp
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
-import random
-
-# Demo lesson format from your JSON (ch1_passwords.json)
-demo_lesson = {
-    "title": "Why Strong Passwords Matter",
-    "cards": [
-        "Many cyberattacks begin by guessing or cracking weak passwords.",
-        "Attackers use tools like brute-force and dictionary attacks to try thousands of password combinations quickly.",
-        "Passwords like '123456', 'admin', or 'password1' are in every attacker’s playbook."
-    ],
-    "questions": [
-        {
-            "question": "Why is '123456' a weak password?",
-            "options": [
-                "It uses numbers",
-                "It is commonly used and easy to guess",
-                "It is long",
-                "It is encrypted"
-            ],
-            "answer": 1
-        }
-    ]
-}
 
 KV = '''
 <LevelScreen>:
@@ -83,26 +60,47 @@ Builder.load_string(KV)
 
 class LevelScreen(Screen):
     def on_enter(self):
-        self.load_lesson(demo_lesson)
+        self.load_lesson({
+            "title": "Why Strong Passwords Matter",
+            "cards": [
+                "Many cyberattacks begin by guessing or cracking weak passwords.",
+                "Attackers use tools like brute-force and dictionary attacks to try thousands of password combinations quickly.",
+                "Passwords like '123456', 'admin', or 'password1' are in every attacker’s playbook."
+            ],
+            "questions": [
+                {
+                    "question": "Why is '123456' a weak password?",
+                    "options": [
+                        "It uses numbers",
+                        "It is commonly used and easy to guess",
+                        "It is long",
+                        "It is encrypted"
+                    ],
+                    "answer": 1
+                }
+            ]
+        })
 
     def load_lesson(self, lesson):
         self.ids.level_title.text = lesson['title']
         Animation(font_size=22, d=0.6, t='out_back').start(self.ids.level_title)
 
+        # Lesson cards
         self.ids.card_container.clear_widgets()
         for card in lesson['cards']:
             card_btn = MDRaisedButton(
                 text=card,
-                md_bg_color=(0.2, 0.2, 0.2, 0.9),
+                md_bg_color=(0.2, 0.2, 0.2, 1),
                 text_color=(1, 1, 1, 1),
                 theme_text_color="Custom",
-                padding=dp(12),
                 size_hint_y=None,
-                height=dp(80)
+                height=dp(80),
+                elevation=8
             )
             card_btn.radius = [18, 18, 18, 18]
             self.ids.card_container.add_widget(card_btn)
 
+        # Load question
         question = lesson["questions"][0]
         self.ids.question_label.text = question["question"]
         self.build_options(question)
@@ -114,10 +112,10 @@ class LevelScreen(Screen):
         for i, opt in enumerate(question["options"]):
             btn = MDRaisedButton(
                 text=opt,
-                md_bg_color=(0.9, 0.4, 0.3, 1),
-                pos_hint={"center_x": 0.5},
+                md_bg_color=(1, 0.2, 0.2, 1),
                 size_hint=(1, None),
                 height=dp(50),
+                pos_hint={"center_x": 0.5},
                 on_release=lambda btn, idx=i: self.check_answer(idx, correct)
             )
             btn.radius = [30, 30, 30, 30]
