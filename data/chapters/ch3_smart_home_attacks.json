@@ -1,0 +1,152 @@
+{
+    "levels": [
+        {
+            "type": "lesson",
+            "title": "What Are Smart Devices?",
+            "cards": [
+                "Smart devices \u2014 or IoT devices \u2014 are everyday electronics that connect to the internet.",
+                "Examples include smart thermostats, lights, doorbells, security cameras, fridges, or even coffee machines.",
+                "They usually have sensors and software that allow them to collect data and interact with other devices or users.",
+                "Most are controlled through a mobile app or voice assistant like Alexa or Google Assistant.",
+                "Because they\u2019re so integrated into our lives, they\u2019ve become a juicy target for hackers."
+            ],
+            "questions": [
+                {
+                    "question": "How do smart devices usually communicate?",
+                    "options": [
+                        "Via infrared",
+                        "Through power cables",
+                        "Over the internet",
+                        "Using satellites"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which of the following is considered a smart device?",
+                    "options": [
+                        "Microwave",
+                        "Smart thermostat",
+                        "Washing powder",
+                        "Notebook"
+                    ],
+                    "answer": 1
+                }
+            ]
+        },
+        {
+            "type": "lesson",
+            "title": "How Smart Homes Can Be Attacked",
+            "cards": [
+                "Smart homes rely on many connected devices that communicate with each other and your phone.",
+                "Hackers can look for weak points, like devices with default usernames or passwords.",
+                "Outdated software (called firmware) can have bugs that let attackers take control.",
+                "Once inside your network, an attacker can spy, unlock smart doors, or control other devices.",
+                "Most attacks happen because people forget to update devices or leave them unprotected."
+            ],
+            "questions": [
+                {
+                    "question": "What\u2019s a common mistake that lets hackers into smart homes?",
+                    "options": [
+                        "Using a smart speaker",
+                        "Not updating devices",
+                        "Having too many apps",
+                        "Buying cheap devices"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What can an attacker do if they access your smart door lock?",
+                    "options": [
+                        "Boost your Wi-Fi",
+                        "Make your home faster",
+                        "Unlock your door remotely",
+                        "Charge your phone"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "type": "lesson",
+            "title": "Real-World Smart Home Hacks",
+            "cards": [
+                "In 2016, the Mirai botnet took over thousands of smart cameras and caused massive internet outages.",
+                "Some smart baby monitors were accessed by strangers who spoke through them \u2014 terrifying, right?",
+                "These attacks happened because devices were left with default passwords or weren\u2019t updated.",
+                "Smart TVs, fridges, even lightbulbs have been used as part of hacking tools.",
+                "It\u2019s not science fiction \u2014 it\u2019s happening right now, and it\u2019s preventable."
+            ],
+            "questions": [
+                {
+                    "question": "What was the Mirai botnet made of?",
+                    "options": [
+                        "Mobile phones",
+                        "Smart cameras and IoT devices",
+                        "Desktop computers",
+                        "Gaming consoles"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Why were baby monitors hacked?",
+                    "options": [
+                        "They were too expensive",
+                        "They ran out of batteries",
+                        "They had default passwords",
+                        "They were too new"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "type": "practical",
+            "title": "Guess the Entry Point",
+            "description": "Identify which smart devices in a simulated home are vulnerable and how an attacker might exploit them.",
+            "exercise_type": "iot_entry_point_sim"
+        },
+        {
+            "type": "practical",
+            "title": "Hack the Smart Home (Simulation)",
+            "description": "Role-play as an attacker to demonstrate how poor IoT security can be exploited.",
+            "exercise_type": "iot_attack_game"
+        },
+        {
+            "type": "master",
+            "title": "Master Test - Smart Home Attacks",
+            "num_questions": 3,
+            "questions": [
+                {
+                    "question": "What is a common reason smart devices are hacked?",
+                    "options": [
+                        "They are waterproof",
+                        "They lack proper security updates",
+                        "They cost too much",
+                        "They use AI"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What can happen if your smart camera is compromised?",
+                    "options": [
+                        "It explodes",
+                        "It gets a virus",
+                        "Someone can watch you without your knowledge",
+                        "It turns off forever"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "Which attack used IoT devices to crash websites?",
+                    "options": [
+                        "Phishing",
+                        "Ransomware",
+                        "Mirai botnet",
+                        "Man-in-the-middle"
+                    ],
+                    "answer": 2
+                }
+            ]
+        }
+    ]
+}

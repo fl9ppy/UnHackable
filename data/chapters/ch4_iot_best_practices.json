@@ -1,0 +1,152 @@
+{
+    "levels": [
+        {
+            "type": "lesson",
+            "title": "Why IoT Security is Different",
+            "cards": [
+                "Unlike computers or phones, many smart devices don't support strong antivirus tools.",
+                "They are small, cheap, and often forgotten after setup \u2014 which makes them easy targets.",
+                "You might not even notice when one of them is hacked, since most of them don't have screens or alerts.",
+                "Once inside your smart device, an attacker can use it to spy, steal info, or jump to other devices in your home.",
+                "That\u2019s why securing IoT requires different habits and tools than regular cybersecurity."
+            ],
+            "questions": [
+                {
+                    "question": "Why is IoT security harder than regular computer security?",
+                    "options": [
+                        "IoT devices are waterproof",
+                        "They don\u2019t support standard antivirus software",
+                        "They cost more money",
+                        "They update automatically"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What\u2019s one danger of hacked IoT devices?",
+                    "options": [
+                        "They won\u2019t load websites",
+                        "They explode",
+                        "They can spy or spread malware to other devices",
+                        "They become unusable"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "type": "lesson",
+            "title": "Default Settings Are Dangerous",
+            "cards": [
+                "When you first install a smart device, it often comes with a default username and password \u2014 like 'admin' and '1234'.",
+                "Attackers know these defaults and use them to get in fast \u2014 without hacking.",
+                "Many people never change these settings after setup, especially if the device 'just works'.",
+                "Some devices also leave risky features enabled, like remote access, which can be exploited.",
+                "Always change the password and disable anything you don't need!"
+            ],
+            "questions": [
+                {
+                    "question": "What\u2019s the risk of keeping default passwords on smart devices?",
+                    "options": [
+                        "They confuse the app",
+                        "Attackers can guess them easily and gain control",
+                        "They slow down the internet",
+                        "They erase your data"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "Which feature should be disabled if not needed?",
+                    "options": [
+                        "Remote access",
+                        "Wi-Fi connection",
+                        "Touchscreen control",
+                        "Voice commands"
+                    ],
+                    "answer": 0
+                }
+            ]
+        },
+        {
+            "type": "lesson",
+            "title": "IoT Network Segmentation",
+            "cards": [
+                "You can create a separate network for your smart devices \u2014 often called a guest network.",
+                "That way, even if one device is hacked, the attacker can't reach your phone or computer.",
+                "It\u2019s like putting the risky devices in their own digital sandbox.",
+                "Some routers let you do this by creating two Wi-Fi names (SSIDs), or using advanced settings like VLANs.",
+                "It\u2019s one of the best ways to limit damage if something goes wrong."
+            ],
+            "questions": [
+                {
+                    "question": "What does network segmentation help with?",
+                    "options": [
+                        "Making your internet faster",
+                        "Separating smart devices from sensitive ones",
+                        "Giving your neighbor free Wi-Fi",
+                        "Saving battery"
+                    ],
+                    "answer": 1
+                },
+                {
+                    "question": "What kind of network should you put your smart devices on?",
+                    "options": [
+                        "Main network",
+                        "School network",
+                        "Guest network",
+                        "Bluetooth network"
+                    ],
+                    "answer": 2
+                }
+            ]
+        },
+        {
+            "type": "practical",
+            "title": "Fix the Dumb Setup",
+            "description": "Fix a badly configured smart home setup by clicking through problems like default passwords and outdated firmware.",
+            "exercise_type": "iot_fix_bad_setup"
+        },
+        {
+            "type": "practical",
+            "title": "Build a Security Checklist",
+            "description": "Select the best IoT security practices from a list and build your custom checklist.",
+            "exercise_type": "iot_checklist_builder_tiered"
+        },         
+        {
+            "type": "master",
+            "title": "Master Test - IoT Security Best Practices",
+            "num_questions": 3,
+            "questions": [
+                {
+                    "question": "Why are default passwords risky?",
+                    "options": [
+                        "They make the device faster",
+                        "They are hard to type",
+                        "They are easy for attackers to guess",
+                        "They use too much power"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What is a good way to protect your smart devices?",
+                    "options": [
+                        "Use the same Wi-Fi as your laptop",
+                        "Keep them offline",
+                        "Put them on a separate network",
+                        "Ignore security updates"
+                    ],
+                    "answer": 2
+                },
+                {
+                    "question": "What should you always do before using a new smart device?",
+                    "options": [
+                        "Take a selfie with it",
+                        "Install antivirus software",
+                        "Use it in guest mode",
+                        "Change the default password"
+                    ],
+                    "answer": 3
+                }
+            ]
+        }
+    ]
+}
