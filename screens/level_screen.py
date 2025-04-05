@@ -140,7 +140,25 @@ class LevelScreen(Screen):
                     description=level.get("description", "")
                 )
                 self.ids.level_box.clear_widgets()
-                self.ids.level_box.add_widget(widget)       
+                self.ids.level_box.add_widget(widget)    
+            elif exercise_type == "phishing_detector_sim":
+                from screens.practicals.practical_phishing_detector import PracticalPhishingDetector
+                widget = PracticalPhishingDetector(
+                    level_screen=self,
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
+                )
+                self.ids.level_box.clear_widgets()
+                self.ids.level_box.add_widget(widget)
+            elif exercise_type == "email_dissection_tool":
+                from screens.practicals.practical_email_dissection import PracticalEmailDissection
+                widget = PracticalEmailDissection(
+                    level_screen=self,
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
+                )
+                self.ids.level_box.clear_widgets()
+                self.ids.level_box.add_widget(widget)
         elif level_type == "master":
             self.display_master(level)
         else:
