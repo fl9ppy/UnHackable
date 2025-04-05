@@ -19,8 +19,9 @@ class UnHackableApp(MDApp):
         init_db()  # 🔧 Create tables if not already created
 
         sm = ScreenManager()
-        sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(SignupScreen(name='signup'))
+        sm.add_widget(LoginScreen(name='login'))
+
         return sm
 
 if __name__ == "__main__":

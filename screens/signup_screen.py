@@ -6,7 +6,7 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
 
 # Import the real backend function from mock_db or db.py
-from database.mock_db import create_user  # You can later switch to: from database.db import create_user
+from database.db import create_user  # You can later switch to: from database.db import create_user
 
 KV = '''
 <SignupScreen>:

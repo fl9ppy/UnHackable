@@ -6,7 +6,7 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
 
 # === 🔥 REAL BACKEND IMPORT ===
-from database.mock_db import login_user
+from database.db import login_user
 
 KV = '''
 <LoginScreen>:
