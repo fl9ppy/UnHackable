@@ -4,12 +4,13 @@ from kivy.animation import Animation
 from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
-
-# === 🔥 REAL BACKEND IMPORT ===
+from database.db import get_user_id
 from database.db import login_user
 
 KV = '''
 <LoginScreen>:
+    name: "login"
+
     MDBoxLayout:
         orientation: "vertical"
         padding: dp(32)
@@ -48,6 +49,12 @@ KV = '''
             md_bg_color: 1, 0.3, 0.3, 1
             pos_hint: {"center_x": 0.5}
             on_release: root.do_login()
+
+        MDRaisedButton:
+            text: "Sign Up"
+            md_bg_color: 0.3, 0.3, 0.3, 1
+            pos_hint: {"center_x": 0.5}
+            on_release: root.go_to_signup()
 '''
 
 Builder.load_string(KV)
@@ -67,10 +74,22 @@ class LoginScreen(Screen):
             return
 
         if login_user(username, password):
+            from database.db import get_user_id
+            user_id = get_user_id(username)
+
+            if user_id == -1:
+                self.show_error_dialog("Login failed. User not found.")
+                return
+
+            home = self.manager.get_screen("home")
+            home.set_user(username, user_id)
+
             toast("✅ Login successful!")
-            # self.manager.current = "home_screen"  # Optional: Navigate to next screen
+            self.manager.current = "home"  # ✅ THIS SWITCHES THE SCREEN
+
         else:
             self.show_error_dialog("Invalid username or password.")
+
 
     def show_error_dialog(self, message):
         if not self.dialog:
@@ -85,3 +104,5 @@ class LoginScreen(Screen):
             self.dialog.text = message
         self.dialog.open()
 
+    def go_to_signup(self):
+        self.manager.current = "signup"

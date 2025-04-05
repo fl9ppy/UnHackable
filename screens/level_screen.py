@@ -8,7 +8,7 @@ from kivymd.uix.label import MDLabel
 from kivy.uix.scrollview import ScrollView
 from pathlib import Path
 import json
-
+from database.db import save_user_progress
 from data_interface import load_chapters
 from utils.gamification import grant_xp, calculate_xp
 from utils.logic import check_answer, get_next_level
@@ -54,6 +54,21 @@ KV = '''
             spacing: dp(10)
             size_hint_y: None
             height: self.minimum_height
+
+        MDRaisedButton:
+            text: "🏠 Home"
+            size_hint: None, None
+            size: dp(100), dp(40)
+            pos_hint: {"right": 1}
+            md_bg_color: 0.2, 0.2, 0.2, 1
+            on_release: root.go_home()
+
+        MDRaisedButton:
+            text: "← Chapter"
+            size_hint: None, None
+            size: dp(100), dp(40)
+            md_bg_color: 0.2, 0.2, 0.2, 1
+            on_release: root.go_back_to_chapter()
 '''
 
 Builder.load_string(KV)
@@ -176,6 +191,7 @@ class LevelScreen(Screen):
         if check_answer(correct, selected):
             toast("✅ Correct!")
             grant_xp(self.user_id, calculate_xp("quiz_correct"))
+            save_user_progress(self.user_id, self.chapter_index, self.level_index)
             self.next_level()
         else:
             toast("❌ Try again")
@@ -193,7 +209,16 @@ class LevelScreen(Screen):
         else:
             toast("🏁 You've completed all levels!")
 
-    def load_chapter(self, chapter_index: int, level_index: int = 0):
+    def load_chapter(self, chapter_index, level_index=0, user_id=1):
         self.chapter_index = chapter_index
         self.level_index = level_index
+        self.user_id = user_id
         self.load_current_level()
+
+    def go_home(self):
+        self.manager.current = "home"
+
+    def go_back_to_chapter(self):
+        chapter_screen = self.manager.get_screen("chapter")
+        chapter_screen.set_chapter(self.chapter_index, self.user_id)
+        self.manager.current = "chapter"

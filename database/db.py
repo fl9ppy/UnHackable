@@ -125,7 +125,35 @@ def get_user_badges(user_id: int) -> list:
         cursor.execute('SELECT badge_name FROM badges WHERE user_id = ?', (user_id,))
         return [row[0] for row in cursor.fetchall()]
 
+def save_user_progress(user_id: int, chapter_id: int, level_id: int, score: int = 1):
+    with get_connection() as conn:
+        cursor = conn.cursor()
+
+        # Check if this user has already completed this level
+        cursor.execute('''
+            SELECT score FROM progress
+            WHERE user_id = ? AND chapter_id = ? AND level_id = ?
+        ''', (user_id, chapter_id, level_id))
+
+        result = cursor.fetchone()
+        if result:
+            # Already completed → do not update again
+            return
+
+        # First time → save it
+        cursor.execute('''
+            INSERT INTO progress (user_id, chapter_id, level_id, score)
+            VALUES (?, ?, ?, ?)
+        ''', (user_id, chapter_id, level_id, score))
+        conn.commit()
+
+def get_user_id(username: str) -> int:
+    with get_connection() as conn:
+        cursor = conn.cursor()
+        cursor.execute('SELECT id FROM users WHERE username = ?', (username,))
+        row = cursor.fetchone()
+        return row[0] if row else -1
+
 if __name__ == "__main__":
     init_db()
     print("Database initialized.")
-
