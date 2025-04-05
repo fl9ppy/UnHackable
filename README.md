@@ -1,6 +1,6 @@
 # 🌶️ UnHackable
 
-**UnHackable** is a gamified cybersecurity learning app created by **Team SpicyVoltage** for Polihack V17. It teaches key cybersecurity concepts to a wide audience through interactive lessons, quizzes, and practical mini-games.
+**UnHackable** is a gamified cybersecurity learning app created by **Team SpicyVoltage** for Polihack V17. It teaches key cybersecurity concepts to a wide audience through interactive lessons, quizzes, and practical mini-games, helping people stay safe online.
 
 ---
 
