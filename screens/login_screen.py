@@ -5,10 +5,8 @@ from kivymd.uix.dialog import MDDialog
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
 
-# === MOCK LOGIN FUNCTION DIRECTLY HERE ===
-def login_user(username, password) -> bool:
-    print(f"[MOCK] login_user({username}, {password})")
-    return username == "test" and password == "1234"
+# === 🔥 REAL BACKEND IMPORT ===
+from database.mock_db import login_user
 
 KV = '''
 <LoginScreen>:
@@ -61,21 +59,29 @@ class LoginScreen(Screen):
         Animation(opacity=1, d=0.6, t='out_quad').start(self.ids.title_label)
 
     def do_login(self):
-        username = self.ids.username.text
-        password = self.ids.password.text
+        username = self.ids.username.text.strip()
+        password = self.ids.password.text.strip()
+
+        if not username or not password:
+            self.show_error_dialog("Please enter both username and password.")
+            return
 
         if login_user(username, password):
             toast("✅ Login successful!")
+            # self.manager.current = "home_screen"  # Optional: Navigate to next screen
         else:
-            self.show_error_dialog()
+            self.show_error_dialog("Invalid username or password.")
 
-    def show_error_dialog(self):
+    def show_error_dialog(self, message):
         if not self.dialog:
             self.dialog = MDDialog(
                 title="Login Failed",
-                text="Invalid username or password.",
+                text=message,
                 buttons=[
                     MDRaisedButton(text="Retry", on_release=lambda x: self.dialog.dismiss())
                 ]
             )
+        else:
+            self.dialog.text = message
         self.dialog.open()
+
