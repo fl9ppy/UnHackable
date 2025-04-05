@@ -12,6 +12,6 @@
 
 ---
 
-- 🌐 Website: spicyvoltage.com
+- 🌐 Website: [spicy-voltage.com](https://spicy-voltage.com)
 
 ## 🌶️ ***Stay spicy. Stay UnHackable.***
