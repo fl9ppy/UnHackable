@@ -3,39 +3,81 @@
         {
             "type": "lesson",
             "title": "What is Phishing?",
-            "content": "Phishing is a cyber attack where attackers trick people into giving away sensitive information, such as passwords or credit card numbers, usually by pretending to be a trustworthy source via email or message."
+            "cards": [
+                "Phishing is a cyberattack where someone pretends to be a trusted source to steal your private info.",
+                "They might send fake emails, messages, or even phone calls asking for your password or credit card number.",
+                "Phishing relies on tricking humans, not breaking systems \u2014 that's what makes it dangerous."
+            ],
+            "questions": [
+                {
+                    "question": "What is the goal of a phishing attack?",
+                    "options": [
+                        "To improve internet speed",
+                        "To steal sensitive information",
+                        "To install antivirus software",
+                        "To fix your computer"
+                    ],
+                    "answer": 1
+                }
+            ]
         },
         {
             "type": "lesson",
             "title": "Types of Phishing Attacks",
-            "content": "Common phishing types include email phishing, spear phishing (targeted), smishing (SMS phishing), and vishing (voice phishing). Each method uses different channels to deceive the victim."
-        },
-        {
-            "type": "quiz",
-            "question": "Which of the following is an example of phishing?",
-            "options": [
-                "An app update notification",
-                "An email claiming you won a prize, asking for personal info",
-                "A scheduled system reboot",
-                "Installing antivirus software"
+            "cards": [
+                "**Email Phishing**: A fake message pretending to be from a real service like your bank or school.",
+                "**Spear Phishing**: Targeted phishing meant just for you, often using personal details.",
+                "**Smishing**: Phishing via SMS (text message).",
+                "**Vishing**: Phishing via voice calls. Example: someone calling and pretending to be tech support."
             ],
-            "answer": 1
+            "questions": [
+                {
+                    "question": "What is spear phishing?",
+                    "options": [
+                        "A phishing attack using fake websites",
+                        "A highly targeted phishing attempt using personal info",
+                        "Phishing using loud audio messages",
+                        "Bulk spam emails"
+                    ],
+                    "answer": 1
+                }
+            ]
         },
         {
             "type": "lesson",
             "title": "How to Spot a Phishing Attempt",
-            "content": "Look for signs like poor grammar, suspicious links, unexpected attachments, and urgent or threatening language. Always verify the sender and avoid clicking unknown links."
+            "cards": [
+                "Phishing emails often have poor grammar, spelling errors, or weird formatting.",
+                "They usually create a sense of urgency: 'Your account will be deleted!'",
+                "Very often they will ask for information the person they are pretending to be would never need.",
+                "For example, they might pretend to be a bank representative and ask for all of your banking details.",
+                "Check the sender's address \u2014 it might be close, but slightly off (like amaz0n.com).",
+                "Never click on links unless you are 100% sure they're legit."
+            ],
+            "questions": [
+                {
+                    "question": "Which of these is a common sign of phishing?",
+                    "options": [
+                        "An official email signature",
+                        "A clean-looking design",
+                        "An urgent message and suspicious link",
+                        "It was sent during work hours"
+                    ],
+                    "answer": 2
+                }
+            ]
         },
         {
-            "type": "quiz",
-            "question": "What is a sign of a phishing email?",
-            "options": [
-                "It uses perfect grammar and clear language",
-                "It comes from your saved contacts",
-                "It asks for urgent action and contains a suspicious link",
-                "It is sent through secure channels"
-            ],
-            "answer": 2
+            "type": "practical",
+            "title": "Spot the Phish",
+            "description": "You\u2019ll be shown a series of emails and messages. Your job is to decide which ones are legit and which are phishing.",
+            "exercise_type": "phishing_detector_sim"
+        },
+        {
+            "type": "practical",
+            "title": "DIY Phishing Email",
+            "description": "Try writing your own phising email!",
+            "exercise_type": "email_dissection_tool"
         },
         {
             "type": "master",

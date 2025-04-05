@@ -3,14 +3,12 @@
       {
         "id": "ch1",
         "title": "Passwords & Authentication",
-        "file": "data/chapters/ch1_passwords.json",
-        "num_levels": 6
+        "file": "data/chapters/ch1_passwords.json"
       },
       {
         "id": "ch2",
         "title": "Phishing & Social Engineering",
-        "file": "data/chapters/ch2_phishing.json",
-        "num_levels": 6
+        "file": "data/chapters/ch2_phishing.json"
       }
     ]
   }
