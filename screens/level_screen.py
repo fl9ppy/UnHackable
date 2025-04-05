@@ -14,6 +14,7 @@ from utils.gamification import grant_xp, calculate_xp
 from utils.logic import check_answer, get_next_level
 from screens.practicals.practical_password_builder import PracticalPasswordBuilder
 from screens.practicals.practical_password_crack import PracticalPasswordCrackSim
+from kivy.clock import Clock
 
 KV = '''
 <LevelScreen>:
@@ -125,19 +126,21 @@ class LevelScreen(Screen):
         elif level_type == "practical":
             exercise_type = level.get("exercise_type")
             if exercise_type == "password_builder_lab":
-                self.ids.level_box.clear_widgets()
                 widget = PracticalPasswordBuilder(
                     level_screen=self,
-                    on_complete_callback=self.next_level
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
                 )
-                self.ids.level_box.add_widget(widget)
+                self.ids.level_box.clear_widgets()
+                self.ids.level_box.add_widget(widget)           
             elif exercise_type == "password_crack_sim":
                 widget = PracticalPasswordCrackSim(
                     level_screen=self,
-                    on_complete_callback=self.next_level
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
                 )
                 self.ids.level_box.clear_widgets()
-                self.ids.level_box.add_widget(widget)
+                self.ids.level_box.add_widget(widget)       
         elif level_type == "master":
             self.display_master(level)
         else:
@@ -219,18 +222,20 @@ class LevelScreen(Screen):
             toast("❌ Try again")
             grant_xp(self.user_id, calculate_xp("quiz_wrong"))
 
+    # In next_level()
     def next_level(self):
         if self.level_index + 1 < len(self.levels):
             self.level_index += 1
             self.load_current_level()
         else:
+            master_screen = self.manager.get_screen("master")
+            master_screen.set_user_context(self.user_id, self.chapter_index)
             self.ids.level_box.clear_widgets()
 
-            from kivy.clock import Clock
             def go_to_master(dt):
                 self.manager.current = "master"
 
-            Clock.schedule_once(go_to_master, 0.01)    
+            Clock.schedule_once(go_to_master, 0.01)
 
     def load_chapter(self, chapter_index, level_index=0, user_id=1):
         chapters = load_chapters()["chapters"]

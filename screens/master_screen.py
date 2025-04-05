@@ -1,120 +1,120 @@
 from kivy.uix.screenmanager import Screen
 from kivy.lang import Builder
-from kivy.metrics import dp
-from kivy.animation import Animation
 from kivymd.uix.button import MDRaisedButton
 from kivymd.toast import toast
-from kivy.properties import NumericProperty
+from kivymd.uix.label import MDLabel
+from kivy.metrics import dp
+from kivy.clock import Clock
+import random
+
+from data_interface import load_chapters, load_level_data
+from database.db import save_user_progress
+from utils.gamification import grant_xp, calculate_xp
+
+PASSING_SCORE = 70
 
 KV = '''
 <MasterScreen>:
     name: "master"
 
     MDBoxLayout:
+        id: master_box
         orientation: "vertical"
         padding: dp(24)
         spacing: dp(20)
-        md_bg_color: 0.05, 0.05, 0.05, 1
-
-        MDLabel:
-            id: title_label
-            text: "🧠 Master Test"
-            font_style: "H5"
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 0.2, 0.2, 1
-            size_hint_y: None
-            height: self.texture_size[1]
-
-        MDLabel:
-            id: question_label
-            text: ""
-            halign: "center"
-            theme_text_color: "Custom"
-            text_color: 1, 1, 1, 1
-            font_style: "Subtitle1"
-            size_hint_y: None
-            height: self.texture_size[1]
 
         MDBoxLayout:
-            id: option_box
-            orientation: "vertical"
-            spacing: dp(10)
             size_hint_y: None
-            height: self.minimum_height
+            height: dp(40)
+
+            MDRaisedButton:
+                text: "⬅ Back"
+                on_release: root.go_back()
+                size_hint_x: None
+                width: dp(100)
+
+            MDLabel:
+                text: "🎓 Master Test"
+                font_style: "H6"
+                halign: "center"
+
+        ScrollView:
+            MDBoxLayout:
+                id: question_container
+                orientation: "vertical"
+                size_hint_y: None
+                height: self.minimum_height
+                spacing: dp(16)
 
         MDRaisedButton:
-            id: next_btn
-            text: "Next"
-            size_hint_x: 0.5
-            size_hint_y: None
-            height: dp(50)
+            text: "Submit"
             pos_hint: {"center_x": 0.5}
-            md_bg_color: 1, 0.2, 0.2, 1
-            on_release: root.next_question()
+            on_release: root.submit_answers()
 '''
 
 Builder.load_string(KV)
 
 class MasterScreen(Screen):
-    current_q = NumericProperty(0)
+    def on_pre_enter(self):
+        self.ids.question_container.clear_widgets()
+        self.correct_answers = {}
+        self.load_questions()
 
-    def on_enter(self):
-        self.questions = [
-            {
-                "question": "What makes a password strong?",
-                "options": ["Only numbers", "Same characters", "Mix of letters/symbols", "Your name"],
-                "answer": 2
-            },
-            {
-                "question": "What is phishing?",
-                "options": ["Firewall config", "Fake message to steal info", "Antivirus", "Secure login"],
-                "answer": 1
-            },
-            {
-                "question": "How can you protect against phishing?",
-                "options": ["Click links to test", "Reply fast", "Verify sources", "Ignore updates"],
-                "answer": 2
-            }
-        ]
-        self.current_q = 0
-        self.correct_answers = 0
-        self.load_question()
+    def load_questions(self):
+        chapters = load_chapters()["chapters"]
+        chapter_data = load_level_data(chapters[self.chapter_index]["file"])
+        self.levels = chapter_data["levels"]
 
-    def load_question(self):
-        self.ids.option_box.clear_widgets()
+        # Gather all questions from lessons
+        all_questions = []
+        for level in self.levels:
+            if level.get("type") == "lesson":
+                all_questions.extend(level.get("questions", []))
 
-        q = self.questions[self.current_q]
-        self.ids.question_label.text = q["question"]
+        # Pick a subset (e.g. 5 questions)
+        self.questions = random.sample(all_questions, min(5, len(all_questions)))
 
-        for i, opt in enumerate(q["options"]):
-            btn = MDRaisedButton(
-                text=opt,
-                md_bg_color=(0.2, 0.2, 0.2, 1),
-                text_color=(1, 1, 1, 1),
-                size_hint=(1, None),
-                height=dp(50),
-                pos_hint={"center_x": 0.5},
-                on_release=lambda btn, idx=i: self.check_answer(idx)
+        for i, q in enumerate(self.questions):
+            q_label = MDLabel(
+                text=f"{i+1}. {q['question']}",
+                theme_text_color="Primary",
+                size_hint_y=None,
+                height=dp(24)
             )
-            btn.radius = [24, 24, 24, 24]
-            self.ids.option_box.add_widget(btn)
+            self.ids.question_container.add_widget(q_label)
 
-        self.ids.question_label.opacity = 0
-        Animation(opacity=1, d=0.4, t="out_quad").start(self.ids.question_label)
+            for j, opt in enumerate(q["options"]):
+                btn = MDRaisedButton(
+                    text=opt,
+                    size_hint=(1, None),
+                    height=dp(40),
+                    on_release=lambda btn, qi=i, oj=j: self.mark_answer(qi, oj, btn)
+                )
+                self.ids.question_container.add_widget(btn)
 
-    def check_answer(self, selected_idx):
-        correct_idx = self.questions[self.current_q]["answer"]
-        if selected_idx == correct_idx:
-            toast("✅ Correct!")
-            self.correct_answers += 1
+    def mark_answer(self, q_index, option_index, button):
+        self.correct_answers[q_index] = option_index
+        toast(f"✅ Selected option {option_index+1} for Q{q_index+1}")
+
+    def submit_answers(self):
+        score = 0
+        for i, q in enumerate(self.questions):
+            if self.correct_answers.get(i) == q["answer"]:
+                score += 1
+
+        score_percent = int((score / len(self.questions)) * 100)
+
+        if score_percent >= PASSING_SCORE:
+            save_user_progress(self.user_id, self.chapter_index, level_id=len(self.levels))
+            grant_xp(self.user_id, calculate_xp("master_complete"))
+            toast(f"🏆 Passed! Score: {score_percent}%")
+            Clock.schedule_once(lambda dt: self.go_back(), 1)
         else:
-            toast("❌ Incorrect!")
+            toast(f"❌ Failed! Score: {score_percent}%. Try again.")
 
-    def next_question(self):
-        if self.current_q + 1 < len(self.questions):
-            self.current_q += 1
-            self.load_question()
-        else:
-            toast(f"🎉 Done! {self.correct_answers}/{len(self.questions)} correct!")
-            # TODO: Add XP update, DB save, or transition
+    def go_back(self):
+        self.manager.current = "chapter"
+
+    def set_user_context(self, user_id, chapter_index):
+        self.user_id = user_id
+        self.chapter_index = chapter_index

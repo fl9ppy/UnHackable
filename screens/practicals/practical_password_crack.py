@@ -15,10 +15,17 @@ Builder.load_string("""
     spacing: dp(20)
 
     MDLabel:
-        id: crack_title
-        text: "🔓 Cracking password..."
+        text: "🔓 Password Cracking Demo"
         font_style: "H6"
         halign: "center"
+
+    MDLabel:
+        id: description_label
+        text: ""
+        halign: "center"
+        theme_text_color: "Secondary"
+        size_hint_y: None
+        height: self.texture_size[1] + dp(4)
 
     MDLabel:
         id: password_label
@@ -45,10 +52,13 @@ Builder.load_string("""
 """)
 
 class PracticalPasswordCrackSim(BoxLayout):
-    def __init__(self, level_screen, on_complete_callback, **kwargs):
+    def __init__(self, level_screen, on_complete_callback, description="", **kwargs):
         super().__init__(**kwargs)
+
         self.level_screen = level_screen
         self.on_complete = on_complete_callback
+
+        self.ids.description_label.text = description
 
         self.passwords = [
             ("123456", 1),
@@ -103,5 +113,12 @@ class PracticalPasswordCrackSim(BoxLayout):
         grant_xp(user_id, calculate_xp("practical_complete"))
 
         toast("✅ Simulation complete!")
-        self.on_complete()
 
+        # Ensure widgets are cleared before switching
+        screen.ids.level_box.clear_widgets()
+
+        # Safe screen transition
+        def go_to_next(dt):
+            screen.next_level()
+
+        Clock.schedule_once(go_to_next, 0.01)
