@@ -125,19 +125,21 @@ class LevelScreen(Screen):
         elif level_type == "practical":
             exercise_type = level.get("exercise_type")
             if exercise_type == "password_builder_lab":
-                self.ids.level_box.clear_widgets()
                 widget = PracticalPasswordBuilder(
                     level_screen=self,
-                    on_complete_callback=self.next_level
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
                 )
-                self.ids.level_box.add_widget(widget)
+                self.ids.level_box.clear_widgets()
+                self.ids.level_box.add_widget(widget)           
             elif exercise_type == "password_crack_sim":
                 widget = PracticalPasswordCrackSim(
                     level_screen=self,
-                    on_complete_callback=self.next_level
+                    on_complete_callback=self.next_level,
+                    description=level.get("description", "")
                 )
                 self.ids.level_box.clear_widgets()
-                self.ids.level_box.add_widget(widget)
+                self.ids.level_box.add_widget(widget)       
         elif level_type == "master":
             self.display_master(level)
         else:

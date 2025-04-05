@@ -10,6 +10,7 @@ from kivymd.toast import toast
 from utils.gamification import grant_xp, calculate_xp
 from database.db import save_user_progress
 
+
 Builder.load_string("""
 <PracticalPasswordBuilder>:
     orientation: "vertical"
@@ -20,6 +21,14 @@ Builder.load_string("""
         text: "🔐 Create a Secure Password"
         font_style: "H6"
         halign: "center"
+
+    MDLabel:
+        id: description_label
+        text: ""
+        halign: "center"
+        theme_text_color: "Secondary"
+        size_hint_y: None
+        height: self.texture_size[1] + dp(4) 
 
     MDTextField:
         id: password_input
@@ -49,10 +58,12 @@ Builder.load_string("""
 """)
 
 class PracticalPasswordBuilder(BoxLayout):
-    def __init__(self, level_screen, on_complete_callback, **kwargs):
+    def __init__(self, level_screen, on_complete_callback, description="", **kwargs):
         super().__init__(**kwargs)
         self.level_screen = level_screen
         self.on_complete = on_complete_callback
+
+        self.ids.description_label.text = description
 
     def analyze_password(self, pwd):
         score = 0
@@ -97,6 +108,11 @@ class PracticalPasswordBuilder(BoxLayout):
 
         save_user_progress(user_id, chapter, level)
         grant_xp(user_id, calculate_xp("practical_complete"))
-
         toast("✅ Password accepted!")
-        self.on_complete()
+
+        # Clear current practical
+        screen.ids.level_box.clear_widgets()
+
+        # Continue to next level
+        from kivy.clock import Clock
+        Clock.schedule_once(lambda dt: screen.next_level(), 0.01)
