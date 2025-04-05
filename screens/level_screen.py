@@ -9,9 +9,11 @@ from kivy.uix.scrollview import ScrollView
 from pathlib import Path
 import json
 from database.db import save_user_progress
-from data_interface import load_chapters
+from data_interface import load_chapters, load_level_data
 from utils.gamification import grant_xp, calculate_xp
 from utils.logic import check_answer, get_next_level
+from screens.practicals.practical_password_builder import PracticalPasswordBuilder
+from screens.practicals.practical_password_crack import PracticalPasswordCrackSim
 
 KV = '''
 <LevelScreen>:
@@ -69,6 +71,11 @@ KV = '''
             size: dp(100), dp(40)
             md_bg_color: 0.2, 0.2, 0.2, 1
             on_release: root.go_back_to_chapter()
+
+        MDBoxLayout:
+            id: level_box
+            orientation: "vertical"
+            spacing: dp(20)
 '''
 
 Builder.load_string(KV)
@@ -84,6 +91,7 @@ class LevelScreen(Screen):
         self.load_current_level()
 
     def load_current_level(self):
+        self.ids.level_box.clear_widgets()
         try:
             chapters = load_chapters().get("chapters", [])
             chapter = chapters[self.chapter_index]
@@ -115,7 +123,21 @@ class LevelScreen(Screen):
         if level_type == "lesson":
             self.display_lesson(level)
         elif level_type == "practical":
-            self.display_practical(level)
+            exercise_type = level.get("exercise_type")
+            if exercise_type == "password_builder_lab":
+                self.ids.level_box.clear_widgets()
+                widget = PracticalPasswordBuilder(
+                    level_screen=self,
+                    on_complete_callback=self.next_level
+                )
+                self.ids.level_box.add_widget(widget)
+            elif exercise_type == "password_crack_sim":
+                widget = PracticalPasswordCrackSim(
+                    level_screen=self,
+                    on_complete_callback=self.next_level
+                )
+                self.ids.level_box.clear_widgets()
+                self.ids.level_box.add_widget(widget)
         elif level_type == "master":
             self.display_master(level)
         else:
@@ -198,21 +220,28 @@ class LevelScreen(Screen):
             grant_xp(self.user_id, calculate_xp("quiz_wrong"))
 
     def next_level(self):
-        next_level = get_next_level({
-            "chapter": self.chapter_index,
-            "level": self.level_index
-        })
-        if next_level:
-            self.chapter_index = next_level["chapter"]
-            self.level_index = next_level["level"]
+        if self.level_index + 1 < len(self.levels):
+            self.level_index += 1
             self.load_current_level()
         else:
-            toast("🏁 You've completed all levels!")
+            self.ids.level_box.clear_widgets()
+
+            from kivy.clock import Clock
+            def go_to_master(dt):
+                self.manager.current = "master"
+
+            Clock.schedule_once(go_to_master, 0.01)    
 
     def load_chapter(self, chapter_index, level_index=0, user_id=1):
+        chapters = load_chapters()["chapters"]
         self.chapter_index = chapter_index
         self.level_index = level_index
         self.user_id = user_id
+
+        self.current_chapter = chapters[chapter_index]
+        chapter_path = self.current_chapter["file"]
+        self.levels = load_level_data(chapter_path)["levels"]
+
         self.load_current_level()
 
     def go_home(self):
@@ -222,3 +251,7 @@ class LevelScreen(Screen):
         chapter_screen = self.manager.get_screen("chapter")
         chapter_screen.set_chapter(self.chapter_index, self.user_id)
         self.manager.current = "chapter"
+
+    def on_leave(self):
+        if "level_box" in self.ids:
+            self.ids.level_box.clear_widgets()
