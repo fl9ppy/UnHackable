@@ -50,6 +50,13 @@ KV = '''
                     theme_text_color: "Custom"
                     text_color: 1, 1, 1, 1
                     size_hint_x: 0.2
+                
+                MDRaisedButton:
+                    text: "💬 Cyber Chat"
+                    on_release: root.manager.current = "chat"
+                    size_hint: None, None
+                    size: dp(140), dp(40)
+                    pos_hint: {"center_x": 0.5}
 
                 MDRaisedButton:
                     text: "⚙"

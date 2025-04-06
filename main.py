@@ -11,6 +11,7 @@ from database.db import init_db  # 🔥 Real DB initialization
 from screens.chapter_screen import ChapterScreen
 from screens.start_screen import StartScreen
 from kivy.core.text import LabelBase
+from screens.chat_screen import ChatScreen
 
 Window.size = (360, 640)
 
@@ -31,6 +32,7 @@ class UnHackableApp(MDApp):
         sm.add_widget(LevelScreen(name='level'))
         sm.add_widget(MasterScreen(name="master"))
         sm.add_widget(ChapterScreen(name="chapter"))
+        sm.add_widget(ChatScreen(name="chat"))
         sm.current = "start"
         return sm
 
