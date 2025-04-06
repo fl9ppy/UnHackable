@@ -52,25 +52,26 @@ KV = '''
                     on_release: root.go_home()
 
             MDBoxLayout:
-                orientation: "horizontal"
+                orientation: "vertical"
                 size_hint_y: None
-                height: dp(32)
+                height: dp(60)
+                padding: dp(16)
                 spacing: dp(8)
-                padding: dp(8)
-
-                MDLabel:
-                    id: progress_label
-                    text: "Progress:"
-                    size_hint_x: 0.3
-                    halign: "left"
 
                 MDBoxLayout:
                     id: progress_bar_container
-                    orientation: "horizontal"
                     size_hint_y: None
-                    height: dp(24)
-                    spacing: dp(8)
-                    size_hint_x: 0.7
+                    height: dp(20)
+                    size_hint_x: 1
+                    pos_hint: {"center_x": 0.5}
+
+                MDLabel:
+                    id: progress_label
+                    text: "Progress: 0/0"
+                    halign: "center"
+                    theme_text_color: "Primary"
+                    size_hint_y: None
+                    height: dp(20)
 
             ScrollView:
                 do_scroll_x: False
