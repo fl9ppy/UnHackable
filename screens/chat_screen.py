@@ -23,11 +23,19 @@ KV = '''
             size_hint_y: None
             height: dp(56)
             md_bg_color: 0.2, 0.2, 0.2, 1
+            padding: dp(8)
 
             MDLabel:
                 text: '🤖 Cyber Chat'
-                halign: 'center'
                 font_style: 'H6'
+                halign: 'left'
+                size_hint_x: 0.8
+
+            MDRaisedButton:
+                text: '🏠 Home'
+                size_hint_x: 0.2
+                md_bg_color: 0.3, 0.3, 0.3, 1
+                on_release: root.go_home()
 
         ScrollView:
             MDBoxLayout:
@@ -81,3 +89,6 @@ class ChatScreen(Screen):
             padding=(dp(8), dp(4))
         )
         self.ids.chat_box.add_widget(label)
+
+    def go_home(self):
+        self.manager.current = "home"
