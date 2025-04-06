@@ -173,12 +173,13 @@ class LevelScreen(Screen):
 
         widget = None
 
-        if exercise_type == "password_builder":
+        if exercise_type in ("password_builder", "password_builder_lab"):
             widget = practical_password_builder.PracticalPasswordBuilder(
                 level_screen=self,
                 on_complete_callback=self.next_level,
                 description=description
             )
+
         elif exercise_type == "password_crack_sim":
             widget = practical_password_crack.PracticalPasswordCrackSim(
                 level_screen=self,
