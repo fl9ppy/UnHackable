@@ -12,6 +12,7 @@ from screens.chapter_screen import ChapterScreen
 from screens.start_screen import StartScreen
 from kivy.core.text import LabelBase
 from screens.chat_screen import ChatScreen
+from screens.level_screen import LevelScreen
 
 Window.size = (360, 640)
 
@@ -29,10 +30,11 @@ class UnHackableApp(MDApp):
         sm.add_widget(LoginScreen(name='login'))
         sm.add_widget(SignupScreen(name='signup'))
         sm.add_widget(HomeScreen(name="home"))
-        sm.add_widget(LevelScreen(name='level'))
+        sm.add_widget(LevelScreen(name='le2vel'))
         sm.add_widget(MasterScreen(name="master"))
         sm.add_widget(ChapterScreen(name="chapter"))
         sm.add_widget(ChatScreen(name="chat"))
+        sm.add_widget(LevelScreen(name="level"))
         sm.current = "start"
         return sm
 
