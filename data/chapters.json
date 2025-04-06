@@ -9,6 +9,16 @@
         "id": "ch2",
         "title": "Phishing & Social Engineering",
         "file": "data/chapters/ch2_phishing.json"
+      },
+      {
+        "id": "ch3",
+        "title": "Smart Home Attacks",
+        "file": "data/chapters/ch3_smart_home_attacks.json"
+      },
+      {
+        "id": "ch4",
+        "title": "Securing IoT with Best Practices",
+        "file": "data/chapters/ch4_iot_best_practices.json"
       }
     ]
   }

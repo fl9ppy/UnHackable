@@ -115,6 +115,8 @@ class LevelScreen(Screen):
 
     def load_current_level(self):
         self.ids.level_box.clear_widgets()
+        self.ids.option_box.clear_widgets()
+
         try:
             chapters = load_chapters().get("chapters", [])
             chapter = chapters[self.chapter_index]
@@ -135,6 +137,7 @@ class LevelScreen(Screen):
 
     def render_level(self, level):
         self.ids.option_box.clear_widgets()
+        self.ids.level_box.clear_widgets()  # <-- 🔥 This prevents stacking
         self.ids.question_label.text = ""
         self.ids.level_title.text = level["title"]
 
@@ -151,6 +154,7 @@ class LevelScreen(Screen):
         else:
             toast("❓ Unknown level type")
 
+
     def display_lesson(self, level):
         questions = level.get("questions", [])
         if questions:
@@ -158,17 +162,61 @@ class LevelScreen(Screen):
             self.build_options(questions[0])
 
     def display_practical(self, level):
-        self.ids.question_label.text = level.get("description", "")
-        btn = MDRaisedButton(
-            text="▶ Launch Simulation",
-            on_release=lambda x: toast("🚧 Simulation placeholder"),
-            size_hint=(None, None),
-            size=(dp(300), dp(56)),
-            pos_hint={"center_x": 0.5},
-            md_bg_color=(0.3, 0.7, 0.3, 1)
-        )
-        btn.radius = [30, 30, 30, 30]
-        self.ids.option_box.add_widget(btn)
+        from screens.practicals import practical_password_builder, practical_password_crack, practical_phishing_detector, practical_email_dissection, practical_iot_fix_setup, practical_iot_checklist_builder
+
+        self.ids.option_box.clear_widgets()
+        self.ids.level_box.clear_widgets()
+        self.ids.question_label.text = ""
+
+        exercise_type = level.get("exercise_type", "")
+        description = level.get("description", "")
+
+        widget = None
+
+        if exercise_type == "password_builder":
+            widget = practical_password_builder.PracticalPasswordBuilder(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+        elif exercise_type == "password_crack_sim":
+            widget = practical_password_crack.PracticalPasswordCrackSim(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+        elif exercise_type == "phishing_detector_sim":
+            widget = practical_phishing_detector.PracticalPhishingDetector(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+        elif exercise_type == "email_dissection_tool":
+            widget = practical_email_dissection.PracticalEmailDissection(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+        elif exercise_type == "iot_fix_bad_setup":
+            widget = practical_iot_fix_setup.PracticalIotFixSetup(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+        elif exercise_type == "iot_checklist_builder_tiered":
+            widget = practical_iot_checklist_builder.PracticalIotChecklistBuilder(
+                level_screen=self,
+                on_complete_callback=self.next_level,
+                description=description
+            )
+
+        if widget:
+            # 🔥 Clear *everything* and only show the simulation
+            self.ids.level_box.clear_widgets()
+            self.ids.level_box.add_widget(widget)
+        else:
+            toast("⚠ Unknown practical type")
+
 
     def display_master(self, level):
         qlist = level.get("questions", [])
