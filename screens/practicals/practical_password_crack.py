@@ -11,44 +11,78 @@ from kivymd.uix.progressbar import MDProgressBar
 Builder.load_string("""
 <PracticalPasswordCrackSim>:
     orientation: "vertical"
-    padding: dp(24)
-    spacing: dp(20)
+    padding: dp(24), dp(24)
+    spacing: dp(16)
 
     MDLabel:
         text: "🔓 Password Cracking Demo"
         font_style: "H6"
         halign: "center"
+        size_hint_y: None
+        height: dp(30)
 
     MDLabel:
         id: description_label
-        text: ""
+        text: "Simulate a password cracking tool and identify which passwords fail instantly."
         halign: "center"
         theme_text_color: "Secondary"
         size_hint_y: None
-        height: self.texture_size[1] + dp(4)
+        height: self.texture_size[1] + dp(12)
+
+    Widget:
+        size_hint_y: None
+        height: dp(24)
+
+    Widget:
+        size_hint_y: None
+        height: dp(12)
 
     MDLabel:
         id: password_label
         text: ""
         halign: "center"
+        font_style: "H5"
+        theme_text_color: "Custom"
+        text_color: 1, 1, 1, 1
+        size_hint_y: None
+        height: dp(44)
 
     MDProgressBar:
         id: progress_bar
         max: 100
         value: 0
         height: dp(10)
+        size_hint_y: None
+        color: 1, 0.2, 0.2, 1
+
+    Widget:
+        size_hint_y: None
+        height: dp(4)
 
     MDLabel:
         id: result_label
         text: ""
         halign: "center"
         theme_text_color: "Secondary"
+        size_hint_y: None
+        height: dp(20)
+
+    Widget:
+        size_hint_y: None
+        height: dp(12)
 
     MDRaisedButton:
         id: next_btn
         text: "Next"
         pos_hint: {"center_x": 0.5}
         on_release: root.next_password()
+        md_bg_color: 1, 0.2, 0.2, 1
+        size_hint_y: None
+        height: dp(42)
+
+    Widget:
+        size_hint_y: None
+        height: dp(32)
 """)
 
 class PracticalPasswordCrackSim(BoxLayout):
@@ -58,7 +92,7 @@ class PracticalPasswordCrackSim(BoxLayout):
         self.level_screen = level_screen
         self.on_complete = on_complete_callback
 
-        self.ids.description_label.text = description
+        self.ids.description_label.text = description or "Simulate a password cracking tool and identify which passwords fail instantly."
 
         self.passwords = [
             ("123456", 1),
