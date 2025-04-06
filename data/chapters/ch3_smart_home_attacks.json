@@ -100,18 +100,6 @@
             ]
         },
         {
-            "type": "practical",
-            "title": "Guess the Entry Point",
-            "description": "Identify which smart devices in a simulated home are vulnerable and how an attacker might exploit them.",
-            "exercise_type": "iot_entry_point_sim"
-        },
-        {
-            "type": "practical",
-            "title": "Hack the Smart Home (Simulation)",
-            "description": "Role-play as an attacker to demonstrate how poor IoT security can be exploited.",
-            "exercise_type": "iot_attack_game"
-        },
-        {
             "type": "master",
             "title": "Master Test - Smart Home Attacks",
             "num_questions": 3,

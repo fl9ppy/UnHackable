@@ -98,19 +98,7 @@
                     "answer": 2
                 }
             ]
-        },
-        {
-            "type": "practical",
-            "title": "Fix the Dumb Setup",
-            "description": "Fix a badly configured smart home setup by clicking through problems like default passwords and outdated firmware.",
-            "exercise_type": "iot_fix_bad_setup"
-        },
-        {
-            "type": "practical",
-            "title": "Build a Security Checklist",
-            "description": "Select the best IoT security practices from a list and build your custom checklist.",
-            "exercise_type": "iot_checklist_builder_tiered"
-        },         
+        },        
         {
             "type": "master",
             "title": "Master Test - IoT Security Best Practices",
