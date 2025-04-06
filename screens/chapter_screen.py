@@ -15,6 +15,7 @@ KV = '''
 <ChapterScreen>:
     name: "chapter"
 
+
     MDBoxLayout:
         orientation: "vertical"
         spacing: dp(12)
