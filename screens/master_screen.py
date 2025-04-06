@@ -17,39 +17,57 @@ KV = '''
 <MasterScreen>:
     name: "master"
 
-    MDBoxLayout:
-        id: master_box
-        orientation: "vertical"
-        padding: dp(24)
-        spacing: dp(20)
-
-        MDBoxLayout:
-            size_hint_y: None
-            height: dp(40)
-
-            MDRaisedButton:
-                text: "⬅ Back"
-                on_release: root.go_back()
-                size_hint_x: None
-                width: dp(100)
-
-            MDLabel:
-                text: "🎓 Master Test"
-                font_style: "H6"
-                halign: "center"
+    FloatLayout:
+        canvas.before:
+            Rectangle:
+                source: "assets/bg_level.jpg"
+                pos: self.pos
+                size: self.size
 
         ScrollView:
+            size_hint: 1, 1
             MDBoxLayout:
-                id: question_container
                 orientation: "vertical"
+                spacing: dp(20)
+                padding: dp(24), dp(40)
                 size_hint_y: None
                 height: self.minimum_height
-                spacing: dp(16)
 
-        MDRaisedButton:
-            text: "Submit"
-            pos_hint: {"center_x": 0.5}
-            on_release: root.submit_answers()
+                MDBoxLayout:
+                    size_hint_y: None
+                    height: dp(50)
+                    spacing: dp(10)
+
+                    MDRaisedButton:
+                        text: "⬅ Back"
+                        on_release: root.go_back()
+                        size_hint: None, None
+                        size: dp(100), dp(40)
+                        md_bg_color: 0.2, 0.2, 0.2, 1
+                        text_color: 1, 1, 1, 1
+
+                    MDLabel:
+                        text: "🎓 Master Test"
+                        font_style: "H6"
+                        halign: "center"
+                        theme_text_color: "Custom"
+                        text_color: 1, 1, 1, 1
+
+                MDBoxLayout:
+                    id: question_container
+                    orientation: "vertical"
+                    spacing: dp(16)
+                    size_hint_y: None
+                    height: self.minimum_height
+
+                MDRaisedButton:
+                    text: "Submit"
+                    pos_hint: {"center_x": 0.5}
+                    size_hint: None, None
+                    size: dp(180), dp(50)
+                    md_bg_color: 1, 0.1, 0.1, 1
+                    text_color: 1, 1, 1, 1
+                    on_release: root.submit_answers()
 '''
 
 Builder.load_string(KV)
@@ -65,30 +83,36 @@ class MasterScreen(Screen):
         chapter_data = load_level_data(chapters[self.chapter_index]["file"])
         self.levels = chapter_data["levels"]
 
-        # Gather all questions from lessons
         all_questions = []
         for level in self.levels:
             if level.get("type") == "lesson":
                 all_questions.extend(level.get("questions", []))
 
-        # Pick a subset (e.g. 5 questions)
         self.questions = random.sample(all_questions, min(5, len(all_questions)))
 
         for i, q in enumerate(self.questions):
             q_label = MDLabel(
                 text=f"{i+1}. {q['question']}",
-                theme_text_color="Primary",
+                theme_text_color="Custom",
+                text_color=(1, 1, 1, 1),
+                font_style="Subtitle1",
                 size_hint_y=None,
-                height=dp(24)
+                height=dp(32)
             )
             self.ids.question_container.add_widget(q_label)
 
             for j, opt in enumerate(q["options"]):
+                def make_callback(qi=i, oj=j):
+                    return lambda btn: self.mark_answer(qi, oj, btn)
+
                 btn = MDRaisedButton(
                     text=opt,
-                    size_hint=(1, None),
-                    height=dp(40),
-                    on_release=lambda btn, qi=i, oj=j: self.mark_answer(qi, oj, btn)
+                    size_hint=(None, None),
+                    size=(dp(320), dp(56)),
+                    md_bg_color=(1, 0.2, 0.2, 1),
+                    text_color=(1, 1, 1, 1),
+                    pos_hint={"center_x": 0.5},
+                    on_release=make_callback()
                 )
                 self.ids.question_container.add_widget(btn)
 
