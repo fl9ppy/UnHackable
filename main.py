@@ -10,6 +10,7 @@ from screens.master_screen import MasterScreen
 from database.db import init_db  # 🔥 Real DB initialization
 from screens.chapter_screen import ChapterScreen
 from screens.start_screen import StartScreen
+from kivy.core.text import LabelBase
 
 Window.size = (360, 640)
 
@@ -18,6 +19,7 @@ class UnHackableApp(MDApp):
         self.title = "UnHackable 🌶️"
         self.theme_cls.primary_palette = "Red"
         self.theme_cls.theme_style = "Dark"
+        LabelBase.register(name="Noyh-Regular", fn_regular="assets/fonts/Noyh-Regular.ttf")
 
         init_db()  # 🔧 Create tables if not already created
 

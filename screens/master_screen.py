@@ -42,6 +42,7 @@ KV = '''
                         text: "⬅ Back"
                         on_release: root.go_back()
                         size_hint: None, None
+                        font_name: "assets/fonts/Noyh-Regular.ttf"
                         size: dp(100), dp(40)
                         md_bg_color: 0.2, 0.2, 0.2, 1
                         text_color: 1, 1, 1, 1
@@ -49,6 +50,7 @@ KV = '''
                     MDLabel:
                         text: "🎓 Master Test"
                         font_style: "H6"
+                        font_name: "assets/fonts/Noyh-Regular.ttf"
                         halign: "center"
                         theme_text_color: "Custom"
                         text_color: 1, 1, 1, 1
@@ -64,6 +66,7 @@ KV = '''
                     text: "Submit"
                     pos_hint: {"center_x": 0.5}
                     size_hint: None, None
+                    font_name: "assets/fonts/Noyh-Regular.ttf"
                     size: dp(180), dp(50)
                     md_bg_color: 1, 0.1, 0.1, 1
                     text_color: 1, 1, 1, 1

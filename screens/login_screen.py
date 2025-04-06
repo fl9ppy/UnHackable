@@ -13,7 +13,7 @@ KV = '''
 
     FloatLayout:
         Image:
-            source: "assets/bg_login.jpg"
+            source: "assets/bg_login1.jpg"
             allow_stretch: True
             keep_ratio: False
             size_hint: 1, 1
@@ -33,7 +33,7 @@ KV = '''
                 text: "Login 🌶"
                 font_style: "H4"
                 halign: "center"
-                font_name: "Noyh-Regular"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
                 size_hint_y: None
@@ -45,7 +45,7 @@ KV = '''
                 hint_text: "Username"
                 icon_right: "account"
                 mode: "fill"
-                font_name: "Noyh-Regular"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 fill_color: 0.1, 0.1, 0.1, 1
                 text_color: 1, 0, 0, 1  # 🔥 red text
                 icon_right_color: 1, 0, 0, 1  # 🔥 red icon
@@ -64,7 +64,7 @@ KV = '''
                 icon_right: "lock"
                 password: True
                 mode: "fill"
-                font_name: "Noyh-Regular"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 fill_color: 0.1, 0.1, 0.1, 1
                 text_color: 1, 0, 0, 1  # 🔥 red text
                 icon_right_color: 1, 0, 0, 1  # 🔥 red icon
@@ -80,7 +80,7 @@ KV = '''
             MDRaisedButton:
                 id: login_button
                 text: "Continue"
-                font_name: "Noyh-Regular"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 md_bg_color: 1, 0.2, 0.2, 1
                 text_color: 1, 1, 1, 1
                 size_hint: None, None
@@ -93,7 +93,7 @@ KV = '''
                 text: "Sign Up"
                 md_bg_color: 1, 0.2, 0.2, 1
                 text_color: 1, 1, 1, 1
-                font_name: "Noyh-Regular"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 size_hint: None, None
                 size: dp(180), dp(44)
                 pos_hint: {"center_x": 0.5}

@@ -8,7 +8,7 @@ KV = '''
 
     FloatLayout:
         Image:
-            source: "assets/bg_initial.jpg"
+            source: "assets/bg_initial1.jpg"
             allow_stretch: True
             keep_ratio: False
             size_hint: 1, 1
@@ -18,7 +18,7 @@ KV = '''
             text: "UnHackable"
             font_style: "H3"
             halign: "center"
-            font_name: "Noyh-Regular"
+            font_name: "assets/fonts/Noyh-Regular.ttf"
             theme_text_color: "Custom"
             text_color: 1, 1, 1, 1
             pos_hint: {"center_x": 0.5, "center_y": 0.72}
@@ -30,7 +30,7 @@ KV = '''
             font_style: "Subtitle1"
             halign: "center"
             theme_text_color: "Custom"
-            font_name: "Noyh-Regular"
+            font_name: "assets/fonts/Noyh-Regular.ttf"
             text_color: 1, 1, 1, 1
             pos_hint: {"center_x": 0.5, "center_y": 0.66}
             size_hint_y: None
@@ -42,7 +42,7 @@ KV = '''
             text_color: 1, 1, 1, 1
             pos_hint: {"center_x": 0.5, "center_y": 0.45}
             size_hint: None, None
-            font_name: "Noyh-Regular"
+            font_name: "assets/fonts/Noyh-Regular.ttf"
             size: dp(260), dp(56)
             on_release: app.root.current = "login"
             elevation: 10
@@ -52,7 +52,7 @@ KV = '''
         MDLabel:
             text: "by SpicyVoltage"
             font_style: "Caption"
-            font_name: "Noyh-Regular"
+            font_name: "assets/fonts/Noyh-Regular.ttf"
             halign: "center"
             theme_text_color: "Custom"
             text_color: 1, 1, 1, 1

@@ -14,7 +14,7 @@ KV = '''
 
     FloatLayout:
         Image:
-            source: "assets/bg_register.jpg"  # ✅ Replace with your background
+            source: "assets/bg_register1.jpg"  # ✅ Replace with your background
             allow_stretch: True
             keep_ratio: False
             size_hint: 1, 1
@@ -33,6 +33,7 @@ KV = '''
                 id: title_label
                 text: "Create your account"
                 font_style: "H4"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 halign: "center"
                 theme_text_color: "Custom"
                 text_color: 1, 1, 1, 1
@@ -45,6 +46,7 @@ KV = '''
                 hint_text: "Username"
                 icon_right: "account"
                 mode: "fill"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 fill_color: 0.1, 0.1, 0.1, 1
                 text_color: 1, 0.4, 0.2, 1  # orange
                 icon_right_color: 1, 0.4, 0.2, 1
@@ -63,6 +65,7 @@ KV = '''
                 icon_right: "lock"
                 password: True
                 mode: "fill"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 fill_color: 0.1, 0.1, 0.1, 1
                 text_color: 1, 0.4, 0.2, 1
                 icon_right_color: 1, 0.4, 0.2, 1
@@ -81,6 +84,7 @@ KV = '''
                 icon_right: "lock-check"
                 password: True
                 mode: "fill"
+                font_name: "assets/fonts/Noyh-Regular.ttf"
                 fill_color: 0.1, 0.1, 0.1, 1
                 text_color: 1, 0.4, 0.2, 1
                 icon_right_color: 1, 0.4, 0.2, 1
