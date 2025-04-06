@@ -9,11 +9,7 @@ from kivymd.uix.scrollview import MDScrollView
 from kivy.metrics import dp
 from kivy.animation import Animation
 
-# 🧠 Dummy fallback response function
-# Replace this with your real Ollama/OpenAI handler
-
-def get_ai_response(prompt):
-    return "This is a dummy AI response. Replace me with your Ollama handler."
+from utils.ai_chat import get_ai_response
 
 KV = '''
 <ChatScreen>:
