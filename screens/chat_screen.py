@@ -30,6 +30,14 @@ KV = '''
             height: dp(56)
             md_bg_color: 0.1, 0.1, 0.1, 0.9
             padding: dp(10)
+            spacing: dp(10)
+
+            MDRaisedButton:
+                text: "🏠"
+                size_hint: None, None
+                size: dp(48), dp(36)
+                md_bg_color: 0.2, 0.2, 0.2, 1
+                on_release: root.go_home()
 
             MDLabel:
                 text: '🤖 Cyber Chat'
@@ -107,3 +115,6 @@ class ChatScreen(Screen):
         anim = Animation(opacity=1, d=0.3, t='out_quad')
         label.opacity = 0
         anim.start(label)
+
+    def go_home(self):
+        self.manager.current = 'home'
