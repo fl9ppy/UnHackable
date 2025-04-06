@@ -14,7 +14,7 @@ KV = '''
 
     FloatLayout:
         Image:
-            source: "assets/bg_register.jpg"  # ✅ Replace with your background
+            source: "assets/bg_register1.jpg"  # ✅ Replace with your background
             allow_stretch: True
             keep_ratio: False
             size_hint: 1, 1

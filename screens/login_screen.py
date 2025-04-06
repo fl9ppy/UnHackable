@@ -13,7 +13,7 @@ KV = '''
 
     FloatLayout:
         Image:
-            source: "assets/bg_login.jpg"
+            source: "assets/bg_login1.jpg"
             allow_stretch: True
             keep_ratio: False
             size_hint: 1, 1
